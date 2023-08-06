@@ -5,8 +5,27 @@
 // Initialize Functions
 
 void Game::initWindow()
-{
-    this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "SFML RPG Game");
+{   
+    std::ifstream ifs("config/window.ini");
+
+    std::string title = "None";
+    sf::VideoMode window_bounds(800, 600);
+    unsigned framerate_limit = 120;
+    bool vertical_sync_enabled = false;
+
+    if (ifs.is_open()) 
+    {
+        std::getline(ifs, title);
+        ifs >> window_bounds.width >> window_bounds.height;
+        ifs >> framerate_limit;
+        ifs >> vertical_sync_enabled;
+    }
+
+    ifs.close();
+
+    this->window = new sf::RenderWindow(window_bounds, title);
+    this->window->setFramerateLimit(framerate_limit);
+    this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 }
 
 // Constructors/Destructors
@@ -22,6 +41,17 @@ Game::~Game()
 }
 
 // Functions
+
+void Game::updateDeltaTime() 
+{   
+    /* Updates the dT var with the item it takes to update and render one frame. */
+
+    this->dt = this->dtClock.restart().asSeconds();
+
+    system("cls");
+    std::cout << this->dt << std::endl;
+    
+}
 
 void Game::updateSFMLEvents() 
 {
@@ -51,7 +81,8 @@ void Game::render()
 void Game::run() 
 {
     while (this->window->isOpen())
-    {
+    {  
+       this->updateDeltaTime();
        this->update();
        this->render();
     }
