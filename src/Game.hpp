@@ -2,7 +2,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "game-state.h"
+#include "GameState.hpp"
 
 class Game 
 {

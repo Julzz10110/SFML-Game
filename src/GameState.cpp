@@ -1,4 +1,4 @@
-#include "game-state.h"
+#include "GameState.hpp"
 
 GameState::GameState(sf::RenderWindow* window) : State(window) {
 
